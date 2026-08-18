@@ -4,24 +4,34 @@
 [![Python 3.10+](https://img.shields.io/badge/Python-3.10+-blue.svg)](https://www.python.org/downloads/)
 [![FastAPI](https://img.shields.io/badge/FastAPI-0.100+-009688.svg?style=flat&logo=FastAPI&logoColor=white)](https://fastapi.tiangolo.com/)
 [![Ollama](https://img.shields.io/badge/Ollama-Local%20LLM-orange.svg)](https://ollama.com)
+[![Privacy](https://img.shields.io/badge/Privacy-100%25%20Local-green.svg)]()
 
-> **Persistent memory for AI coding assistants.** 
+> **Your AI coding assistant remembers everything — across every chat, forever.**
 
-AI Memory Agent stores project knowledge outside the LLM's temporary context window and automatically rebuilds context for fresh conversations. Stop explaining your codebase architecture, completed work, or project rules every time you open a new chat.
+Every time you open a new conversation with Claude, you re-explain your stack, your decisions, what's already built. AI Memory Agent solves this permanently: it captures your project knowledge, stores it locally, and auto-injects it into every new session. Zero cloud. Zero setup per chat. Zero re-explaining.
 
 ---
 
-## ✨ Why AI Memory Agent?
+## ⚡ Before vs. After
 
-Instead of starting every single conversation from scratch, the agent continuously tracks and injects:
+| Without AI Memory Agent | With AI Memory Agent |
+|---|---|
+| "We're using FastAPI with JWT auth..." | Agent already knows your auth setup |
+| "Don't touch the legacy module..." | Agent knows what to avoid |
+| "We use Pydantic v2 with strict mode..." | Agent knows your conventions |
+| Re-explaining every new chat | Context injected automatically |
 
-*   **Project Summary:** High-level overview and core business logic.
-*   **Completed Work:** What has already been built so the AI doesn't duplicate code.
-*   **Active Sprint/Task:** The immediate objective you are working on.
-*   **Architecture & Tech Decisions:** Design patterns, chosen libraries, and constraints.
-*   **Repository Analysis:** Key modules, file structures, and entry points.
+---
 
-The result is a local, secure AI assistant that carries context seamlessly across unlimited chats.
+## ✨ What It Tracks
+
+Instead of starting every conversation from scratch, the agent continuously tracks and injects:
+
+- **Project Summary** — High-level overview and core business logic
+- **Completed Work** — What's already built so the AI doesn't duplicate code
+- **Active Sprint/Task** — The immediate objective you're working on
+- **Architecture & Tech Decisions** — Design patterns, chosen libraries, constraints
+- **Repository Analysis** — Key modules, file structures, and entry points
 
 ---
 
@@ -29,16 +39,14 @@ The result is a local, secure AI assistant that carries context seamlessly acros
 
 | Layer | Technology | Details |
 |---|---|---|
-| **Backend** | Python 3.10+, FastAPI, Pydantic | Includes an AST Parser for code structure extraction. |
-| **LLM Engine** | Ollama | Runs 100% locally with `qwen3:8b` or other open weights. |
-| **Frontend** | Chrome Extension | Injects parsed memory directly into Claude's UI. |
-| **Storage** | Local JSON | Simple, git-trackable, zero complex cloud dependencies. |
+| **Backend** | Python 3.10+, FastAPI, Pydantic | Includes an AST Parser for code structure extraction |
+| **LLM Engine** | Ollama | Runs 100% locally with `qwen3:8b` or other open weights |
+| **Frontend** | Chrome Extension | Injects parsed memory directly into Claude's UI |
+| **Storage** | Local JSON | Simple, git-trackable, zero cloud dependencies |
 
 ---
 
 ## 📐 System Architecture
-
-Below is the conceptual flow of how the agent intercepts, analyzes, and reinjects context.
 
 ```text
    ┌────────────────────────┐
@@ -55,35 +63,35 @@ Below is the conceptual flow of how the agent intercepts, analyzes, and reinject
    │    FastAPI Backend     │
    └─────┬───────────┬──────┘
          │           │
-┌─────────┘           └─────────┐
-│ (Internal Scan)               │ (Analyze via Local LLM)
-▼                               ▼
+┌────────┘           └────────┐
+│ (Internal Scan)             │ (Analyze via Local LLM)
+▼                             ▼
 ┌──────────────────────┐   ┌──────────────────────┐
-│  Repository Scanner  │   │      Local Ollama    │
-│  (Code AST Parser)   │   │      (qwen3:8b)      │
-└─────────┬────────────┘   └───────────┬──────────┘
-│                            │
-▼                            ▼
+│  Repository Scanner  │   │     Local Ollama     │
+│  (Code AST Parser)   │   │     (qwen3:8b)       │
+└─────────┬────────────┘   └──────────┬───────────┘
+          │                           │
+          ▼                           ▼
 ┌──────────────────────┐   ┌──────────────────────┐
-│ Repository Analysis  │   │    Change Extractor  │
-└─────────┬────────────┘   └───────────┬──────────┘
-│                            │
-└────────────┬───────────────┘
-│ (Memory Merger)
-▼
-┌───────────────────────────┐
-│    project_memory.json    │
-└─────────────┬─────────────┘
-│
-▼
-┌───────────────────────────┐
-│      Context Generator    │
-└─────────────┬─────────────┘
-│  (3) Auto-injects payload
-▼
-┌────────────────────────┐
-│  New Claude Chat Window│
-└────────────────────────┘
+│ Repository Analysis  │   │   Change Extractor   │
+└─────────┬────────────┘   └──────────┬───────────┘
+          │                           │
+          └────────────┬──────────────┘
+                       │ (Memory Merger)
+                       ▼
+          ┌───────────────────────────┐
+          │    project_memory.json    │
+          └─────────────┬─────────────┘
+                        │
+                        ▼
+          ┌───────────────────────────┐
+          │      Context Generator    │
+          └─────────────┬─────────────┘
+                        │  (3) Auto-injects payload
+                        ▼
+          ┌────────────────────────┐
+          │  New Claude Chat Window│
+          └────────────────────────┘
 ```
 
 ---
@@ -92,7 +100,7 @@ Below is the conceptual flow of how the agent intercepts, analyzes, and reinject
 
 ### 1. Clone the Repository
 ```bash
-git clone https://github.com/othmanekabbaj/ai-memory-agent.git
+git clone https://github.com/othmanekt0/ai-memory-agent.git
 cd ai-memory-agent
 ```
 
@@ -104,7 +112,7 @@ python -m venv .venv
 .venv\Scripts\activate
 ```
 
-**Linux/macOS (Bash):**
+**Linux/macOS:**
 ```bash
 python3 -m venv .venv
 source .venv/bin/activate
@@ -116,7 +124,7 @@ pip install -r backend/requirements.txt
 ```
 
 ### 4. Configure & Run Ollama
-Download and install [Ollama](https://ollama.com/). Pull your local LLM model of choice:
+Download and install [Ollama](https://ollama.com/). Pull your local LLM:
 ```bash
 ollama pull qwen3:8b
 ```
@@ -126,40 +134,38 @@ ollama pull qwen3:8b
 cd backend
 uvicorn main:app --reload
 ```
-*The server will boot up at `http://localhost:8000`.*
+*Server boots at `http://localhost:8000`.*
 
 ### 6. Install the Chrome Extension
-1. Open Google Chrome and navigate to `chrome://extensions/`.
-2. Toggle **Developer mode** (top-right corner) to ON.
-3. Click **Load unpacked** (top-left corner).
-4. Select the directory: `extensions/claude-memory`.
+1. Open Chrome → navigate to `chrome://extensions/`
+2. Toggle **Developer mode** ON (top-right)
+3. Click **Load unpacked** (top-left)
+4. Select the `extensions/claude-memory` directory
 
 ---
 
-## 🔌 API & Script Usage
+## 🔌 API Reference
 
-### Triggering a Repository Scan
-To manually analyze and index a local codebase directory:
-
+### Trigger a Repository Scan
 ```python
 from backend.services.repository import RepositoryService
 
 RepositoryService().scan_repository("path/to/your/project")
 ```
 
-### Key API Endpoints
-*   `POST /memory/event` — Emitted by the Chrome extension to process a fresh message block.
-*   `GET /memory/context` — Computes and generates the Markdown context payload ready for injection.
+### Key Endpoints
+- `POST /memory/event` — Emitted by the Chrome extension to process a new message block
+- `GET /memory/context` — Returns the Markdown context payload ready for injection
 
 ---
 
-## 🗺️ Product Roadmap
+## 🗺️ Roadmap
 
-- [x] **Local Core:** Persistent local memory engine
-- [x] **Privacy-First LLM:** Seamless local integration with Ollama
-- [x] **AST Parser:** Static analysis codebase repository scanning
-- [ ] **Git Hooks:** Auto-update memory on git commit or checkout changes
-- [ ] **VSCode Extension:** Native sidebar to inspect active memories
-- [ ] **Semantic Memory:** Vector storage support (Chroma/Qdrant)
-- [ ] **Multi-Project Management:** Easily swap profiles per repository
-- [ ] **Extended Clients:** Native Desktop integration (Cursor, Windsurf, Claude Desktop)
+- [x] Local persistent memory engine
+- [x] 100% private local LLM via Ollama
+- [x] AST-based static codebase analysis
+- [ ] Git hooks — auto-update memory on commit/checkout
+- [ ] VSCode Extension — native sidebar to inspect memories
+- [ ] Semantic memory — vector storage (Chroma/Qdrant)
+- [ ] Multi-project profile management
+- [ ] Extended client support (Cursor, Windsurf, Claude Desktop)
